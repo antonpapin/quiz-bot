@@ -6,6 +6,9 @@ import redis
 import telegram
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, ConversationHandler, RegexHandler
 
+import telebot
+import re
+from telebot import types
 import quiz_tools
 
 dotenv.load_dotenv()
@@ -44,9 +47,22 @@ def handle_solution_attempt(bot, update):
 
 
 def get_keyboard():
-    custom_keyboard = [['Новый вопрос'], ['Сдаться']]
-    reply_markup = telegram.ReplyKeyboardMarkup(custom_keyboard)
-    return reply_markup
+    custom_keyboard = types.InlineKeyboardMarkup()
+    custom_keyboard.add(types.InlineKeyboardMarkup(text='Новый вопрос', callback_data='Новый вопрос'))
+    custom_keyboard.add(types.InlineKeyboardMarkup(text='Сдаться', callback_data='Сдаться'))
+    return custom_keyboard
+
+# kb = types.InlineKeyboardMarkup()
+#     # Добавляем колбэк-кнопку с содержимым "test"
+#     kb.add(types.InlineKeyboardButton(text="Нажми меня", callback_data="test"))
+#     results = []
+#     single_msg = types.InlineQueryResultArticle(
+#         id="1", title="Press me",
+#         input_message_content=types.InputTextMessageContent(message_text="Я – сообщение из инлайн-режима"),
+#         reply_markup=kb
+#     )
+#     results.append(single_msg)
+#     bot.answer_inline_query(query.id, results)
 
 
 def run_tg_bot(token_tg):
